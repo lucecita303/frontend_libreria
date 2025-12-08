@@ -1,0 +1,42 @@
+.detalle-container {
+    display: flex;
+    padding: 40px;
+    gap: 40px;
+    background: #f7f1e5;
+    color: #3a2c23;
+}
+
+.detalle-img img {
+    width: 350px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #b9a796;
+}
+
+.detalle-info {
+    max-width: 500px;
+}
+
+.autor {
+    font-style: italic;
+    margin-bottom: 10px;
+}
+
+.descripcion {
+    margin: 20px 0;
+}
+
+.precio {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #6a4c2b;
+}
+
+.btn-carrito {
+    background: #6a4c2b;
+    color: #fff;
+    padding: 12px 22px;
+    border: none;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+}

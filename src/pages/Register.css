@@ -1,0 +1,92 @@
+/* Fondo suave estilo pergamino */
+.register-container {
+    min-height: 100vh;
+    background: #f4ede2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Tarjeta */
+.register-card {
+    background: #ffffff;
+    width: 100%;
+    max-width: 420px;
+    padding: 30px;
+    border-radius: 10px;
+    border: 1px solid #d8cbb6;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+/* Título */
+.register-title {
+    font-family: "Georgia", serif;
+    color: #5a4634;
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 25px;
+}
+
+/* Formulario */
+.register-form .form-group {
+    margin-bottom: 18px;
+}
+
+.register-form label {
+    display: block;
+    margin-bottom: 5px;
+    color: #5a4634;
+    font-size: 15px;
+}
+
+.register-form input {
+    width: 100%;
+    padding: 10px;
+    background: #fffdf9;
+    border: 1px solid #c9b8a6;
+    border-radius: 6px;
+    font-size: 15px;
+    outline: none;
+    transition: 0.2s ease-in-out;
+}
+
+.register-form input:focus {
+    border-color: #a67b5b;
+    box-shadow: 0 0 4px rgba(166, 123, 91, 0.4);
+}
+
+/* Botón */
+.register-btn {
+    width: 100%;
+    padding: 12px;
+    background: #8c5c3b;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background 0.2s ease-in-out;
+}
+
+.register-btn:hover {
+    background: #724a2f;
+}
+
+/* Footer */
+.register-footer {
+    text-align: center;
+    margin-top: 15px;
+    color: #5a4634;
+}
+
+.register-footer a {
+    color: #8c5c3b;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.register-footer a:hover {
+    text-decoration: underline;
+}
