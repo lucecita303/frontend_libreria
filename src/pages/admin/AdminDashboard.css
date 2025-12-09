@@ -1,0 +1,314 @@
+/* src/pages/admin/AdminDashboard.css */
+
+/* --- LAYOUT PRINCIPAL --- */
+.admin-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f4f6f8;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* --- SIDEBAR --- */
+.admin-sidebar {
+  width: 250px;
+  background-color: #1C2A39; /* Azul Profundo */
+  color: #FDF7E2;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.sidebar-title {
+  color: #C9A66B; /* Dorado */
+  text-align: center;
+  margin-bottom: 40px;
+  font-family: 'Georgia', serif;
+}
+
+.sidebar-menu button {
+  background: none;
+  border: none;
+  color: #FDF7E2;
+  width: 100%;
+  padding: 15px;
+  text-align: left;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: 0.3s;
+  border-radius: 8px;
+  margin-bottom: 5px;
+}
+
+.sidebar-menu button:hover, .sidebar-menu button.active {
+  background-color: #C9A66B;
+  color: #1C2A39;
+  font-weight: bold;
+}
+
+.btn-logout-sidebar {
+  background-color: #C96B6B;
+  margin-top: 20px;
+  padding: 10px;
+  width: 100%;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.btn-logout-sidebar:hover { background-color: #a84a4a; }
+
+/* --- CONTENIDO PRINCIPAL --- */
+.admin-content {
+  flex: 1;
+  padding: 40px;
+  min-width: 0; 
+  width: 100%; 
+}
+
+.panel-header {
+  margin: 0;
+  color: #1C2A39;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #C9A66B;
+  padding-bottom: 10px;
+}
+
+/* --- CONTROLES Y FILTROS --- */
+.controls-container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.view-switch {
+  background: #e2e8f0;
+  padding: 5px;
+  border-radius: 8px;
+  display: flex;
+  gap: 5px;
+}
+
+.action-btn {
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.btn-blue { background-color: #3182ce; color: white; border: none; }
+.btn-red { background-color: #e53e3e; color: white; border: none; }
+.btn-green { background-color: #38a169; color: white; border: none; }
+.btn-transparent { background: transparent; opacity: 0.6; }
+.btn-active { opacity: 1; border-color: #3182ce; }
+
+/* --- TABLAS --- */
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.admin-table th {
+  background-color: #1C2A39;
+  color: #C9A66B;
+  padding: 15px;
+  text-align: left;
+}
+
+.admin-table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+.actions-cell {
+  display: flex;
+  gap: 5px;
+}
+
+.status-badge {
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+.status-active { background-color: #e6fffa; color: #047857; }
+.status-inactive { background-color: #fff5f5; color: #c53030; }
+
+/* --- DASHBOARD HOME (STATS) --- */
+.dashboard-welcome { text-align: center; margin-bottom: 30px; }
+.stats-container { display: flex; gap: 20px; margin-top: 30px; justify-content: center; }
+
+.stat-card {
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  min-width: 200px;
+  text-align: center;
+}
+.stat-number { font-size: 2rem; color: #1C2A39; font-weight: bold; margin: 10px 0 0 0; }
+
+/* --- API SEARCH SECTION (CORREGIDO) --- */
+.api-controls {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+  align-items: center;
+  width: 100%; /* Asegura que ocupe todo el ancho */
+}
+
+.api-select-type {
+  /* Forzamos el ancho y evitamos que .form-input lo pise */
+  width: 200px !important; 
+  min-width: 200px;
+  flex-shrink: 0; /* Prohibido encogerse */
+  margin: 0;
+}
+
+.api-input-search {
+  /* Reseteamos el width: 100% de .form-input para que funcione flex */
+  width: auto !important; 
+  flex: 1; /* Ocupa todo el espacio restante */
+  margin: 0;
+}
+
+.search-bar {
+  /* Estilos base para inputs que no usan .form-input */
+  width: 100%;
+  padding: 12px 20px;
+  font-size: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 30px;
+  transition: all 0.3s;
+}
+.search-bar:focus { border-color: #C9A66B; outline: none; box-shadow: 0 0 8px rgba(201, 166, 107, 0.3); }
+
+/* GRID DE LIBROS API */
+.api-results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.api-book-card {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: transform 0.2s;
+  display: flex;
+  flex-direction: column;
+  height: 340px;
+}
+
+.api-book-card:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+
+.api-book-cover {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  border-bottom: 1px solid #eee;
+}
+
+.api-book-info {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.api-book-title {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #1C2A39;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+}
+
+.api-book-author { font-size: 0.8rem; color: #666; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* --- MODALES Y FORMULARIOS --- */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(2px);
+}
+
+.modal-content {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  border-top: 6px solid #1C2A39;
+  animation: slideIn 0.3s ease-out;
+}
+
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.close-modal-btn { background: none; border: none; font-size: 1.5rem; cursor: pointer; }
+
+/* Detalle Libro API */
+.book-detail-layout { display: flex; gap: 20px; margin-bottom: 20px; }
+.detail-cover { width: 120px; border-radius: 5px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+.detail-info { flex: 1; }
+.detail-tag { display: inline-block; background: #eee; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; margin: 2px; }
+
+/* Estilos de Formularios (Inputs generales) */
+.form-group { margin-bottom: 15px; }
+.form-row { display: flex; gap: 10px; align-items: flex-end; }
+
+/* ESTA CLASE ERA LA CULPABLE (width: 100%) */
+.form-input { 
+  width: 100%; 
+  padding: 10px; 
+  border: 1px solid #ddd; 
+  border-radius: 6px; 
+  box-sizing: border-box; 
+}
+.form-input:focus { border-color: #1C2A39; outline: 2px solid #C9A66B; }
+
+.modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+.modal-divider { margin: 20px 0; border: 0; border-top: 1px solid #eee; }
+
+/* --- TOAST NOTIFICATIONS --- */
+.notification-toast {
+  position: fixed;
+  top: 20px; right: 20px;
+  background-color: #333; color: white;
+  padding: 15px 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  z-index: 2000;
+  display: flex; align-items: center; gap: 10px;
+  animation: slideInToast 0.4s ease-out forwards;
+}
+.toast-success { background-color: #38a169; border-left: 5px solid #22543d; }
+.toast-error { background-color: #e53e3e; border-left: 5px solid #742a2a; }
+
+@keyframes slideIn { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes slideInToast { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }

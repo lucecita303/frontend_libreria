@@ -1,111 +1,85 @@
+// src/pages/Login.jsx
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext"; 
+import "./Login.css";
+import { jwtDecode } from "jwt-decode";
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
+    
+    const { login } = useAuth();
+    const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Intento de login:", email, password);
+        setError("");
 
-        // Aquí luego agregas tu API
-        alert("Login enviado (falta conectar API)");
+try {
+
+        await login(email, password);
+        
+        const token = localStorage.getItem('token'); 
+        const decoded = jwtDecode(token);
+        
+        const roles = decoded.authorities || [];
+        
+        const isAdmin = roles.includes('ADMIN') || roles.includes('ROLE_ADMIN') || roles.some(r => r.authority === 'ADMIN');
+
+        if (isAdmin) {
+            navigate("/admin");
+        } else {
+            navigate("/");
+        }
+
+    } catch (err) {
+        console.error(err);
+        setError("Credenciales incorrectas");
+    }
     };
 
     return (
-        <div style={styles.container}>
-            <div style={styles.card}>
-                <h2 style={styles.title}>Iniciar sesión</h2>
+        <div className="login-container">
+            <div className="login-card">
+                <h2 className="login-title">Iniciar sesión</h2>
 
-                <form onSubmit={handleSubmit} style={styles.form}>
-                    <label style={styles.label}>Correo electrónico</label>
+                {error && <p className="error-msg">{error}</p>}
+
+                <form onSubmit={handleSubmit} className="login-form">
+                    <label className="login-label">Correo electrónico</label>
                     <input
                         type="email"
-                        style={styles.input}
+                        className="login-input"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
+                        placeholder="admin@email.com"
                     />
 
-                    <label style={styles.label}>Contraseña</label>
+                    <label className="login-label">Contraseña</label>
                     <input
                         type="password"
-                        style={styles.input}
+                        className="login-input"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
+                        placeholder="******"
                     />
 
-                    <button type="submit" style={styles.button}>
+                    <button type="submit" className="login-button">
                         Entrar
                     </button>
                 </form>
 
-                <p style={styles.text}>
+                <p className="login-text">
                     ¿No tienes cuenta?{" "}
-                    <Link to="/register" style={styles.link}>Regístrate</Link>
+                    <Link to="/register" className="login-link">Regístrate</Link>
                 </p>
             </div>
         </div>
     );
-};
-
-const styles = {
-    container: {
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "80vh",
-        background: "#F8F1E5",
-    },
-    card: {
-        background: "#FFF7E6",
-        padding: "40px",
-        borderRadius: "12px",
-        width: "400px",
-        boxShadow: "0 4px 20px rgba(0,0,0,0.15)",
-    },
-    title: {
-        textAlign: "center",
-        marginBottom: "25px",
-        fontSize: "1.8rem",
-        color: "#1A2B3C",
-    },
-    form: {
-        display: "flex",
-        flexDirection: "column",
-    },
-    label: {
-        marginBottom: "5px",
-        fontWeight: "600",
-    },
-    input: {
-        padding: "10px",
-        borderRadius: "6px",
-        border: "1px solid #ccc",
-        marginBottom: "15px",
-        fontSize: "1rem",
-    },
-    button: {
-        padding: "12px",
-        background: "#1A2B3C",
-        color: "#fff",
-        border: "none",
-        borderRadius: "8px",
-        cursor: "pointer",
-        fontSize: "1rem",
-    },
-    text: {
-        marginTop: "20px",
-        textAlign: "center",
-        fontSize: "0.9rem",
-    },
-    link: {
-        color: "#1A2B3C",
-        fontWeight: "bold",
-        textDecoration: "none",
-    },
 };
 
 export default Login;

@@ -1,63 +1,60 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext"; 
+import "./Navbar.css";
 
 export default function Navbar() {
+  const { isAuthenticated, logout, user } = useAuth();
+  const navigate = useNavigate();
+
+  const roles = user?.roles || [];
+  const esAdmin = roles.includes('ADMIN') || roles.some(r => r?.authority === 'ADMIN');
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
+
   return (
-    <nav
-      style={{
-        background: "#1C2A39", // azul profundo elegante
-        padding: "15px 30px",
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        color: "#FDF7E2",
-        boxShadow: "0 4px 10px rgba(0,0,0,0.3)",
-      }}
-    >
+    <nav className="navbar">
       {/* LOGO */}
-      <Link to="/" style={{ textDecoration: "none" }}>
-        <h1
-          style={{
-            color: "#C9A66B", // dorado suave
-            fontSize: "1.8rem",
-            fontWeight: "bold",
-            letterSpacing: "2px",
-          }}
-        >
-          Books
-        </h1>
+      <Link to="/" className="navbar-logo">
+        <h1 className="navbar-title">Books</h1>
       </Link>
 
       {/* LINKS */}
-      <div
-        style={{
-          display: "flex",
-          gap: "25px",
-          fontSize: "1.1rem",
-          alignItems: "center",
-        }}
-      >
-        <Link to="/" style={linkStyle}>
-          Inicio
-        </Link>
+      <div className="navbar-links">
+        
+        {/* CASO 1: Es CLIENTE (o no logueado) -> Ve la tienda */}
+        {!esAdmin && (
+            <>
+                <Link to="/" className="nav-link">Inicio</Link>
+                <Link to="/catalogo" className="nav-link">Catalogo</Link>
+                <Link to="/carrito" className="nav-link">Carrito</Link>
+            </>
+        )}
 
-        <Link to="/catalogo" style={linkStyle}>
-          Catalogo
-        </Link>
+        {/* CASO 2: Es ADMIN -> Solo ve su panel */}
+        {esAdmin && (
+             <Link to="/admin" className="nav-link" style={{color: '#ff6b6b'}}>
+                Panel Admin
+             </Link>
+        )}
 
-        <Link to="/carrito" style={linkStyle}>Carrito</Link>
-
-
-        <Link to="/login" style={linkStyle}>
-          Iniciar sesión
-        </Link>
+        {/* LOGIN / LOGOUT */}
+        {isAuthenticated ? (
+          <div className="user-menu">
+            <span className="user-name">Hola, {user?.email}</span>
+            <button onClick={handleLogout} className="btn-logout">
+              Salir
+            </button>
+          </div>
+        ) : (
+          <Link to="/login" className="nav-link">
+            Iniciar sesión
+          </Link>
+        )}
       </div>
     </nav>
   );
 }
-
-const linkStyle = {
-  color: "#FDF7E2",
-  textDecoration: "none",
-  transition: "0.2s",
-};
