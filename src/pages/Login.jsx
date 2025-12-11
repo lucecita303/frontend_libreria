@@ -55,7 +55,7 @@ try {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
-                        placeholder="admin@email.com"
+                        placeholder="ejemplo@email.com"
                     />
 
                     <label className="login-label">Contraseña</label>

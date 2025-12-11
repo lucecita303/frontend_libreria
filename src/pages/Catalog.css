@@ -1,0 +1,209 @@
+.catalog-container {
+  background-color: #EFE5D2;
+  min-height: 100vh;
+  padding: 40px;
+  font-family: 'Times New Roman', serif;
+  color: #3B2F2F;
+}
+
+.catalog-title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 40px;
+  border-bottom: 2px solid #CBB892;
+  display: inline-block;
+  padding-bottom: 10px;
+}
+
+/* --- FILTROS --- */
+.filters-container {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  background-color: #F4E8D5;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #CBB892;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.filter-input {
+  width: 250px;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #CBB892;
+  font-family: 'Times New Roman', serif;
+  font-size: 1rem;
+}
+
+.filter-select {
+  width: 180px;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #CBB892;
+  font-family: 'Times New Roman', serif;
+  font-size: 1rem;
+  background-color: white;
+  cursor: pointer;
+}
+
+.btn-reset {
+  padding: 12px 20px;
+  background-color: #3B2F2F;
+  color: #F4E8D5;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: bold;
+}
+.btn-reset:hover { background-color: #5A4A42; }
+
+/* --- GRID DE LIBROS --- */
+.catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 30px;
+}
+
+.catalog-card {
+  background-color: #FFF9E6;
+  border: 1px solid #CBB892;
+  border-radius: 12px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  height: 450px; /* Altura fija para uniformidad */
+}
+
+.catalog-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+.card-image-container {
+  height: 200px;
+  background-color: #D7C7A3;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: #FFF;
+}
+
+.card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-info h3 {
+  font-size: 1.1rem;
+  margin: 0 0 5px 0;
+  color: #1C2A39;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  height: 2.4rem;
+}
+
+.card-author {
+  font-style: italic;
+  color: #6C5A4E;
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+}
+
+.card-meta {
+    font-size: 0.85rem;
+    color: #888;
+    margin-bottom: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+.card-price {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #3B2F2F;
+  margin: 5px 0;
+}
+
+.card-stock-warning {
+  font-size: 0.8rem;
+  color: #d97706;
+  font-weight: bold;
+}
+
+/* --- BOTONES DE ACCIÓN (Ver Detalles) --- */
+.btn-details {
+  width: 100%;
+  padding: 10px;
+  background-color: transparent;
+  border: 1px solid #1C2A39;
+  color: #1C2A39;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-top: auto; /* Empuja el botón al fondo de la tarjeta */
+}
+
+.btn-details:hover {
+  background-color: #1C2A39;
+  color: #FFF;
+}
+
+/* --- BOTÓN DESHABILITADO (Agotado) --- */
+.btn-disabled {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  color: #999;
+  background-color: transparent;
+  font-weight: bold;
+  cursor: not-allowed;
+  margin-top: auto;
+}
+
+.btn-disabled:hover {
+  background-color: transparent;
+  color: #999;
+}
+
+/* --- PAGINACIÓN --- */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-top: 50px;
+}
+
+.page-btn {
+  padding: 10px 20px;
+  background-color: #3B2F2F;
+  color: #FFF;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.page-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+.page-info {
+  font-size: 1.1rem;
+  font-weight: bold;
+}

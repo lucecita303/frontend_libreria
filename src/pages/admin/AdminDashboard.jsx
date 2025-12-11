@@ -41,7 +41,7 @@ const AdminDashboard = () => {
 
   // --- MODALES EXTRA ---
   const [modalAdminOpen, setModalAdminOpen] = useState(false);
-  const [nuevoAdmin, setNuevoAdmin] = useState({ email: '', password: '' });
+  const [nuevoAdmin, setNuevoAdmin] = useState({usuario: '', email: '', password: '' });
   
   const [modalCarritoOpen, setModalCarritoOpen] = useState(false);
   const [carritoUsuario, setCarritoUsuario] = useState(null);
@@ -194,15 +194,16 @@ const AdminDashboard = () => {
     } catch (e) { mostrarNotificacion("Error al guardar (¿Ya existe?)", "error"); }
   };
 
-  const handleRegistrarAdmin = async (e) => {
+const handleRegistrarAdmin = async (e) => {
       e.preventDefault();
       try {
+          // Ahora enviamos { usuario, email, password }
           await adminService.registrarNuevoAdmin(nuevoAdmin);
           mostrarNotificacion("¡Nuevo Admin creado exitosamente!", "success");
           setModalAdminOpen(false);
-          setNuevoAdmin({ email: '', password: '' });
+          setNuevoAdmin({ usuario: '', email: '', password: '' }); // Reseteamos todo
       } catch (error) {
-          mostrarNotificacion("Error al crear Admin", "error");
+          mostrarNotificacion("Error al crear Admin (¿Usuario o Email repetido?)", "error");
       }
   };
 
@@ -216,11 +217,12 @@ const AdminDashboard = () => {
       }
   };
 
-  const handleVerOrdenes = async (idUsuario) => {
+const handleVerOrdenes = async (idUsuario) => {
       try {
           setLoading(true);
           const ordenes = await adminService.obtenerOrdenesUsuario(idUsuario);
-          setListaOrdenes(ordenes);
+          const ordenesOrdenadas = ordenes.sort((a, b) => new Date(b.fechaCreacion) - new Date(a.fechaCreacion));
+          setListaOrdenes(ordenesOrdenadas);
           setOrdenSeleccionada(null); 
           setModalOrdenesOpen(true);
           setLoading(false);
@@ -350,12 +352,12 @@ const AdminDashboard = () => {
 
       {loading ? <p>Cargando...</p> : (
         <table className="admin-table">
-          <thead><tr><th>Email</th><th>Nombre</th><th>Estado</th><th>Acciones</th></tr></thead>
+          <thead><tr><th>Email</th><th>Usuario</th><th>Estado</th><th>Acciones</th></tr></thead>
           <tbody>
             {usuarios.map((cliente) => (
               <tr key={cliente.id}>
                 <td>{cliente.email}</td>
-                <td>{cliente.nombre}</td>
+                <td>{cliente.usuario}</td>
                 
                 {/* ESTADO CON COLOR */}
                 <td>
@@ -484,7 +486,7 @@ const AdminDashboard = () => {
       )}
 
       {/* Modal de Órdenes */}
-      {modalOrdenesOpen && (
+{modalOrdenesOpen && (
         <div className="modal-overlay">
             <div className="modal-content" style={{maxWidth: '700px'}}>
                 {!ordenSeleccionada ? (
@@ -501,8 +503,15 @@ const AdminDashboard = () => {
                                         <tr key={orden.id}>
                                             <td><small>{orden.id.substring(0, 8)}...</small></td>
                                             <td>{new Date(orden.fechaCreacion).toLocaleDateString()}</td>
-                                            <td><span className="status-badge status-active">{orden.estado || 'Completado'}</span></td>
-                                            <td>${orden.total.toFixed(2)}</td>
+                                            
+                                            {/* --- MODIFICACIÓN 2: CLASE DINÁMICA DE ESTADO --- */}
+                                            <td>
+                                                <span className={`status-badge status-${orden.estado ? orden.estado.toLowerCase() : 'desconocido'}`}>
+                                                    {orden.estado || 'DESCONOCIDO'}
+                                                </span>
+                                            </td>
+                                            
+                                            <td style={{fontWeight:'bold'}}>${orden.total.toFixed(2)}</td>
                                             <td>
                                                 <button className="action-btn btn-blue" onClick={() => setOrdenSeleccionada(orden)}>Ver Detalle</button>
                                             </td>
@@ -514,22 +523,30 @@ const AdminDashboard = () => {
                     </>
                 ) : (
                     <>
+                        {/* DETALLE DE LA ORDEN SELECCIONADA */}
                         <div className="modal-header">
                             <h3>📦 Detalle Orden #{ordenSeleccionada.id.substring(0, 6)}...</h3>
                             <button onClick={() => setOrdenSeleccionada(null)} className="action-btn">⬅ Volver a Lista</button>
                         </div>
-                        <div style={{marginBottom:'20px'}}>
-                            <p><strong>Fecha:</strong> {new Date(ordenSeleccionada.fechaCreacion).toLocaleString()}</p>
-                            <p><strong>Estado:</strong> {ordenSeleccionada.estado || 'Finalizado'}</p>
+                        <div style={{marginBottom:'20px', display:'flex', justifyContent:'space-between', background:'#f8f9fa', padding:'10px', borderRadius:'8px'}}>
+                            <div>
+                                <p><strong>Fecha:</strong> {new Date(ordenSeleccionada.fechaCreacion).toLocaleString()}</p>
+                                <p><strong>Estado:</strong> <span className={`status-badge status-${ordenSeleccionada.estado ? ordenSeleccionada.estado.toLowerCase() : ''}`}>{ordenSeleccionada.estado}</span></p>
+                            </div>
+                            <div style={{textAlign:'right'}}>
+                                <p><strong>Cliente:</strong> {ordenSeleccionada.nombre} {ordenSeleccionada.apellido}</p>
+                                <p><strong>Dirección:</strong> {ordenSeleccionada.direccion?.direccion}, {ordenSeleccionada.direccion?.municipio}</p>
+                            </div>
                         </div>
                         <table className="admin-table">
-                            <thead><tr><th>Libro</th><th>Cantidad</th><th>Precio Unit.</th><th>Subtotal</th></tr></thead>
+                            <thead><tr><th>Libro</th><th>Cant.</th><th>Precio U.</th><th>Subtotal</th></tr></thead>
                             <tbody>
                                 {ordenSeleccionada.items.map((item, idx) => {
+                                    // Buscamos el título en la lista de libros cargada en el dashboard
                                     const libroInfo = libros.find(l => l.id === item.libroID);
                                     return (
                                         <tr key={idx}>
-                                            <td style={{fontSize:'0.9rem'}}>{libroInfo ? libroInfo.titulo : `Libro ID: ${item.libroID}`}</td>
+                                            <td style={{fontSize:'0.9rem'}}>{libroInfo ? libroInfo.titulo : `ID: ${item.libroID}`}</td>
                                             <td>{item.cantidad}</td>
                                             <td>${item.precioUnitario.toFixed(2)}</td>
                                             <td>${(item.precioUnitario * item.cantidad).toFixed(2)}</td>
@@ -538,7 +555,9 @@ const AdminDashboard = () => {
                                 })}
                             </tbody>
                         </table>
-                        <h3 style={{textAlign:'right', marginTop:'20px', color:'#1C2A39'}}>Total: ${ordenSeleccionada.total.toFixed(2)}</h3>
+                        <h3 style={{textAlign:'right', marginTop:'20px', color:'#1C2A39', borderTop:'2px solid #C9A66B', paddingTop:'10px'}}>
+                            Total Pagado: ${ordenSeleccionada.total.toFixed(2)}
+                        </h3>
                     </>
                 )}
             </div>
@@ -590,20 +609,51 @@ const AdminDashboard = () => {
       )}
 
       {/* Modal Registro Admin */}
-      {modalAdminOpen && (
+{modalAdminOpen && (
         <div className="modal-overlay">
           <div className="modal-content">
             <h3>Registrar Nuevo Admin</h3>
-            <p style={{fontSize:'0.9rem', color:'#666', marginBottom:'20px'}}>Crea una cuenta con privilegios de administrador.</p>
+            <p style={{fontSize:'0.9rem', color:'#666', marginBottom:'20px'}}>
+                Crea una cuenta con privilegios de administrador.
+            </p>
             <form onSubmit={handleRegistrarAdmin}>
+                
+                {/* CAMPO NUEVO: USUARIO */}
+                <div className="form-group">
+                    <label>Nombre de Usuario</label>
+                    <input 
+                        type="text" 
+                        className="form-input" 
+                        required 
+                        value={nuevoAdmin.usuario} 
+                        onChange={e => setNuevoAdmin({...nuevoAdmin, usuario: e.target.value})} 
+                        placeholder="Ej. AdminPrincipal"
+                    />
+                </div>
+
                 <div className="form-group">
                     <label>Correo Electrónico</label>
-                    <input type="email" className="form-input" required value={nuevoAdmin.email} onChange={e => setNuevoAdmin({...nuevoAdmin, email: e.target.value})} />
+                    <input 
+                        type="email" 
+                        className="form-input" 
+                        required 
+                        value={nuevoAdmin.email} 
+                        onChange={e => setNuevoAdmin({...nuevoAdmin, email: e.target.value})} 
+                        placeholder="admin@tienda.com"
+                    />
                 </div>
+
                 <div className="form-group">
                     <label>Contraseña</label>
-                    <input type="password" className="form-input" required value={nuevoAdmin.password} onChange={e => setNuevoAdmin({...nuevoAdmin, password: e.target.value})} />
+                    <input 
+                        type="password" 
+                        className="form-input" 
+                        required 
+                        value={nuevoAdmin.password} 
+                        onChange={e => setNuevoAdmin({...nuevoAdmin, password: e.target.value})} 
+                    />
                 </div>
+
                 <div className="modal-actions">
                     <button type="button" onClick={() => setModalAdminOpen(false)} className="action-btn">Cancelar</button>
                     <button type="submit" className="action-btn btn-blue">Registrar Admin</button>

@@ -8,7 +8,7 @@ export default function Navbar() {
   const navigate = useNavigate();
 
   const roles = user?.roles || [];
-  const esAdmin = roles.includes('ADMIN') || roles.some(r => r?.authority === 'ADMIN');
+  const esAdmin = roles.includes('ADMIN') || roles.some(r => r === 'ADMIN' || r?.authority === 'ADMIN');
 
   const handleLogout = () => {
     logout();
@@ -29,8 +29,13 @@ export default function Navbar() {
         {!esAdmin && (
             <>
                 <Link to="/" className="nav-link">Inicio</Link>
-                <Link to="/catalogo" className="nav-link">Catalogo</Link>
+                <Link to="/catalogo" className="nav-link">Catálogo</Link>
                 <Link to="/carrito" className="nav-link">Carrito</Link>
+                
+                {/* Solo mostramos "Mis Compras" si ya inició sesión */}
+                {isAuthenticated && (
+                    <Link to="/mis-ordenes" className="nav-link">Mis Compras</Link>
+                )}
             </>
         )}
 
@@ -44,7 +49,10 @@ export default function Navbar() {
         {/* LOGIN / LOGOUT */}
         {isAuthenticated ? (
           <div className="user-menu">
-            <span className="user-name">Hola, {user?.email}</span>
+            <span className="user-name">
+                Hola, {user?.usuario || user?.email}
+            </span>
+            
             <button onClick={handleLogout} className="btn-logout">
               Salir
             </button>

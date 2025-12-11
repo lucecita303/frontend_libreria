@@ -17,7 +17,8 @@ export const AuthProvider = ({ children }) => {
             const rolesEncontrados = decoded.authorities || decoded.roles || [];
 
             setUser({ 
-                email: decoded.sub, 
+                email: decoded.sub,
+                usuario: decoded.usuario, 
                 roles: rolesEncontrados 
             });
             setIsAuthenticated(true);

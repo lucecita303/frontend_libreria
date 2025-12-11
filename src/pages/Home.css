@@ -1,0 +1,195 @@
+/* src/pages/Home.css */
+
+.home-container {
+  background-color: #F5ECD7;
+  min-height: 100vh;
+  padding: 40px 20px;
+  color: #1C2A39;
+  font-family: 'Georgia', serif;
+}
+
+/* --- HERO SECTION --- */
+.hero-section {
+  background: #FFF9E6;
+  padding: 60px 40px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.hero-title {
+  color: #1C2A39;
+  font-size: 3rem;
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+}
+
+.hero-text {
+  font-size: 1.2rem;
+  color: #4A3F35;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.hero-btn {
+  margin-top: 25px;
+  padding: 12px 25px;
+  background: #1C2A39;
+  color: #FFF9E6;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: 0.3s;
+}
+
+.hero-btn:hover {
+  background-color: #B68D40;
+}
+
+/* --- FEATURED SECTION --- */
+.featured-section {
+  margin-top: 60px;
+}
+
+.featured-title {
+  text-align: center;
+  font-size: 2rem;
+  color: #1C2A39;
+  margin-bottom: 30px;
+}
+
+.featured-grid {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+/* --- BOOK CARD --- */
+.book-card {
+  background-color: #FFF9E6;
+  width: 260px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  border: 1px solid #C8A27A;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative; /* Necesario para posicionar los badges */
+  transition: transform 0.2s;
+}
+
+.book-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Contenedor de la portada */
+.book-cover-container {
+  position: relative; /* Para poner el badge encima de la imagen */
+  margin-bottom: 15px;
+}
+
+.book-cover-placeholder {
+  height: 180px;
+  background: #C8A27A;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFF9E6;
+  font-size: 1.5rem;
+}
+
+.book-cover-img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* --- BADGES DE STOCK (NUEVO) --- */
+.stock-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: white;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  z-index: 2;
+}
+
+.badge-low {
+  background-color: #d97706; /* Naranja quemado */
+  border: 1px solid #b45309;
+}
+
+.badge-out {
+  background-color: #ef4444; /* Rojo */
+  border: 1px solid #b91c1c;
+}
+
+/* Resto de estilos del libro */
+.book-title {
+  margin: 0 0 10px 0;
+  color: #1C2A39;
+  font-size: 1.2rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  height: 2.8rem; /* Altura fija para alineación */
+}
+
+.book-author {
+  color: #594A3C;
+  font-size: 0.9rem;
+  font-style: italic;
+  margin-bottom: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.book-price {
+  font-weight: bold;
+  color: #1C2A39;
+  margin: 10px 0;
+  font-size: 1.1rem;
+}
+
+.btn-details {
+  padding: 8px 15px;
+  background: transparent;
+  border: 1px solid #1C2A39;
+  color: #1C2A39;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.2s;
+  width: 100%;
+  text-decoration: none;
+}
+
+.btn-details:hover {
+  background-color: #1C2A39;
+  color: #FFF;
+}
+
+/* Estilo para botón deshabilitado (Agotado) */
+.btn-disabled {
+  border-color: #ccc;
+  color: #999;
+  cursor: not-allowed;
+}
+.btn-disabled:hover {
+  background-color: transparent;
+  color: #999;
+}

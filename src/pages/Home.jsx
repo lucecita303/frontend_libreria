@@ -1,126 +1,119 @@
-import React from "react";
-import {Link} from "react-router-dom";
-
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import * as publicService from "../api/publicService"; 
+import "./Home.css"; 
 
 export default function Home() {
-  return (
-    <div
-      style={{
-        backgroundColor: "#F5ECD7",
-        minHeight: "100vh",
-        padding: "40px 20px",
-        color: "#1C2A39",
-        fontFamily: "'Georgia', serif",
-      }}
-    >
-      {/* Hero principal */}
-      <section
-        style={{
-          background: "#FFF9E6",
-          padding: "60px 40px",
-          borderRadius: "12px",
-          boxShadow: "0 6px 20px rgba(0,0,0,0.15)",
-          maxWidth: "900px",
-          margin: "0 auto",
-          textAlign: "center",
-        }}
-      >
-        <h1
-          style={{
-            color: "#1C2A39",
-            fontSize: "3rem",
-            marginBottom: "10px",
-            letterSpacing: "2px",
-          }}
-        >
-          Bienvenido a Bookstore
-        </h1>
+  const [librosDestacados, setLibrosDestacados] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-        <p
-          style={{
-            fontSize: "1.2rem",
-            color: "#4A3F35",
-            maxWidth: "600px",
-            margin: "0 auto",
-          }}
-        >
-          Un rincón clásico para almas curiosas.
-          Aquí encontrarás libros antiguos, raros y tesoros literarios que
-          resisten al tiempo.
+  useEffect(() => {
+    const cargarDatos = async () => {
+      try {
+        const data = await publicService.listarLibrosDisponibles();
+
+        // Ordenamos por ventas (Mayor a menor)
+        const topVentas = data.sort((a, b) => 
+            (b.contadorVentas || 0) - (a.contadorVentas || 0)
+        );
+
+        setLibrosDestacados(topVentas.slice(0, 3));
+      } catch (error) {
+        console.error("Error cargando el catálogo:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    cargarDatos();
+  }, []);
+
+  return (
+    <div className="home-container">
+      {/* Hero principal */}
+      <section className="hero-section">
+        <h1 className="hero-title">Bienvenido a Bookstore</h1>
+        <p className="hero-text">
+          Un rincón clásico para almas curiosas. Aquí encontrarás libros
+          antiguos, raros y tesoros literarios que resisten al tiempo.
         </p>
-          <Link to="/catalogo" style={{ textDecoration: "none" }}>
-        <button
-          style={{
-            marginTop: "25px",
-            padding: "12px 25px",
-            background: "#1C2A39",
-            color: "#FFF9E6",
-            border: "none",
-            borderRadius: "8px",
-            fontSize: "1.1rem",
-            cursor: "pointer",
-            letterSpacing: "1px",
-            transition: "0.3s",
-          }}
-          onMouseOver={(e) => (e.target.style.background = "#B68D40")}
-          onMouseOut={(e) => (e.target.style.background = "#1C2A39")}
-        >
-          Ver catálogo
-        </button
-        >
-          </Link>
+        <Link to="/catalogo" style={{ textDecoration: "none" }}>
+          <button className="hero-btn">Ver catálogo</button>
+        </Link>
       </section>
 
-      {/* Libros destacados */}
-      <section style={{ marginTop: "60px" }}>
-        <h2
-          style={{
-            textAlign: "center",
-            fontSize: "2rem",
-            color: "#1C2A39",
-            marginBottom: "30px",
-          }}
-        >
-          Libros destacados
-        </h2>
+      {/* Libros destacados (Top Ventas) */}
+      <section className="featured-section">
+        <h2 className="featured-title">Los más vendidos</h2>
 
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            gap: "30px",
-            flexWrap: "wrap",
-          }}
-        >
-          {[1, 2, 3].map((i) => (
-            <div
-              key={i}
-              style={{
-                backgroundColor: "#FFF9E6",
-                width: "260px",
-                padding: "20px",
-                borderRadius: "10px",
-                boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-                textAlign: "center",
-                border: "1px solid #C8A27A",
-              }}
-            >
-              <div
-                style={{
-                  height: "180px",
-                  background: "#C8A27A",
-                  borderRadius: "8px",
-                }}
-              ></div>
-              <h3 style={{ marginTop: "15px", color: "#1C2A39" }}>
-                Libro clásico #{i}
-              </h3>
-              <p style={{ color: "#594A3C" }}>
-                Una obra reconocida que marcó historia.
-              </p>
-            </div>
-          ))}
-        </div>
+        {loading ? (
+          <p style={{ textAlign: "center", color: "#594A3C" }}>Buscando obras maestras...</p>
+        ) : (
+          <div className="featured-grid">
+            {librosDestacados.length > 0 ? (
+              librosDestacados.map((libro) => {
+                
+                // LÓGICA DE STOCK
+                const sinStock = libro.stock === 0;
+                const ultimasUnidades = libro.stock > 0 && libro.stock <= 7;
+
+                return (
+                  <div key={libro.id} className="book-card">
+                    <div>
+                      {/* Contenedor relativo para posicionar el badge */}
+                      <div className="book-cover-container">
+                        
+                        {/* BADGES (ETIQUETAS) */}
+                        {sinStock && <span className="stock-badge badge-out">Agotado</span>}
+                        {ultimasUnidades && <span className="stock-badge badge-low">¡Últimas unidades!</span>}
+
+                        {/* IMAGEN */}
+                        {libro.portadaUrl ? (
+                            <img 
+                                src={libro.portadaUrl} 
+                                alt={libro.titulo} 
+                                className="book-cover-img" 
+                            />
+                        ) : (
+                            <div className="book-cover-placeholder">📖</div>
+                        )}
+                      </div>
+                      
+                      <h3 className="book-title" title={libro.titulo}>{libro.titulo}</h3>
+                      
+                      <p className="book-author">
+                        {libro.autores && libro.autores.length > 0
+                          ? libro.autores.map(a => a.nombre).join(", ")
+                          : "Autor Desconocido"}
+                      </p>
+                    </div>
+
+                    <div>
+                      <p className="book-price">
+                          ${libro.precio ? libro.precio.toFixed(2) : "0.00"}
+                      </p>
+                      
+                      {/* Si no hay stock, deshabilitamos el click o mostramos aviso visual */}
+                      {sinStock ? (
+                          <button className="btn-details btn-disabled" disabled>
+                              No disponible
+                          </button>
+                      ) : (
+                          <Link to={`/libro/${libro.id}`} style={{textDecoration: 'none'}}>
+                              <button className="btn-details">
+                                  Ver detalles
+                              </button>
+                          </Link>
+                      )}
+                    </div>
+                  </div>
+                );
+              })
+            ) : (
+              <p style={{ color: "#594A3C" }}>No hay destacados disponibles por ahora.</p>
+            )}
+          </div>
+        )}
       </section>
     </div>
   );

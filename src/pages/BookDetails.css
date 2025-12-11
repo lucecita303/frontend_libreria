@@ -1,70 +1,251 @@
-.details-container {
-    display: flex;
-    justify-content: center;
-    padding: 40px;
-    background: #f4ede2;
-    min-height: 100vh;
+/* Layout General */
+.book-page-wrapper {
+  background-color: #EFE5D2; /* Beige Fondo */
+  min-height: 100vh;
+  padding: 20px 40px;
+  font-family: 'Times New Roman', serif;
+  color: #3B2F2F;
 }
 
-/* Tarjeta principal */
-.details-card {
-    background: #ffffff;
-    width: 100%;
-    max-width: 1000px;
-    display: flex;
-    gap: 30px;
-    padding: 30px;
-    border-radius: 10px;
-    border: 1px solid #d8cbb6;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+.details-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #EFE5D2;
+  font-size: 1.5rem;
+  color: #6C5A4E;
 }
 
-/* Imagen */
-.details-image img {
-    width: 300px;
-    height: 420px;
-    object-fit: cover;
-    border-radius: 10px;
-    border: 2px solid #bfae9f;
+/* Breadcrumb (Volver sutil) */
+.breadcrumb-bar {
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+  color: #6C5A4E;
 }
 
-/* Info */
-.details-info h1 {
-    font-family: Georgia, serif;
-    color: #4a3728;
-    margin-bottom: 10px;
+.breadcrumb-link {
+  text-decoration: none;
+  color: #3B2F2F;
+  font-weight: bold;
+}
+.breadcrumb-link:hover { text-decoration: underline; }
+.breadcrumb-separator { margin: 0 10px; }
+
+/* GRID PRINCIPAL (Tipo Mercado Libre) */
+.details-main-layout {
+  display: grid;
+  grid-template-columns: 350px 1fr 300px; /* Izq | Centro | Der */
+  gap: 30px;
+  background-color: #FFF9E6; /* Tarjeta Papel */
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  border: 1px solid #D7C7A3;
+  min-height: 600px;
 }
 
-.details-autor {
-    color: #7d5b42;
-    margin-bottom: 20px;
+/* COLUMNA 1: IMAGEN */
+.col-gallery {
+  display: flex;
+  justify-content: center;
 }
 
-.details-descripcion {
-    margin-bottom: 25px;
-    line-height: 1.6;
-    color: #3e2e21;
+.main-image-frame {
+  width: 100%;
+  max-width: 350px;
+  height: 500px;
+  border: 1px solid #EFE5D2;
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
 }
 
-.details-precio {
-    font-size: 22px;
-    font-weight: bold;
-    color: #8c5c3b;
-    margin-bottom: 20px;
+.main-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Para que se vea toda la portada sin cortes */
 }
 
-/* Botón */
-.details-btn {
-    padding: 12px 20px;
-    background: #8c5c3b;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 17px;
-    cursor: pointer;
-    transition: 0.2s;
+.placeholder-img {
+  font-size: 5rem;
+  color: #D7C7A3;
 }
 
-.details-btn:hover {
-    background: #724a2f;
+/* COLUMNA 2: INFO */
+.col-info {
+  padding-right: 20px;
+}
+
+.book-title-large {
+  font-size: 2rem;
+  color: #1C2A39;
+  margin-bottom: 10px;
+  line-height: 1.2;
+}
+
+.book-meta-info {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 15px;
+}
+.author-link { color: #1C2A39; font-weight: bold; }
+.meta-divider { margin: 0 10px; }
+
+.tags-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+.book-tag {
+  background: #EFE5D2;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  color: #5A4A42;
+}
+
+.book-description h3 {
+  font-size: 1.3rem;
+  color: #1C2A39;
+  border-bottom: 1px solid #D7C7A3;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+}
+.book-description p {
+  line-height: 1.6;
+  color: #3B2F2F;
+  font-size: 1.05rem;
+}
+
+/* COLUMNA 3: BUY BOX (Caja Flotante) */
+.col-buybox {
+  position: relative;
+}
+
+.buybox-card {
+  border: 1px solid #CBB892;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #FDFBF7; /* Un poco más claro */
+  /* Sticky behavior opcional si el contenido es largo */
+  position: sticky;
+  top: 20px; 
+}
+
+.buybox-price {
+  font-size: 2.2rem;
+  color: #1C2A39;
+  margin: 0 0 20px 0;
+  font-weight: 400; /* Estilo fino elegante */
+}
+
+.buybox-stock {
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+.status-available { color: #166534; font-size: 1rem; }
+.status-out { color: #b91c1c; font-size: 1rem; background: #fee2e2; padding: 5px 10px; border-radius: 4px;}
+
+.quantity-selector {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+}
+
+.qty-input {
+  width: 60px;
+  padding: 5px;
+  font-size: 1rem;
+  border: 1px solid #CBB892;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.stock-count { color: #888; font-size: 0.8rem; }
+
+/* Botones ML Style pero Vintage */
+.buybox-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn-primary-action {
+  width: 100%;
+  padding: 12px;
+  background-color: #3B82F6; /* Azul ML-ish pero ajustado */
+  background-color: #1C2A39; /* O mejor tu azul oscuro */
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.btn-primary-action:hover { background-color: #2c4a6b; }
+
+.btn-secondary-action {
+  width: 100%;
+  padding: 12px;
+  background-color: rgba(65, 137, 230, 0.1); /* Azulito suave */
+  background-color: transparent;
+  color: #1C2A39;
+  border: 1px solid #1C2A39;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.btn-secondary-action:hover { background-color: rgba(28, 42, 57, 0.05); }
+
+.btn-disabled-action {
+  width: 100%;
+  padding: 12px;
+  background-color: #e5e5e5;
+  color: #999;
+  border: none;
+  border-radius: 6px;
+  cursor: not-allowed;
+  font-weight: bold;
+}
+
+.buybox-footer {
+  margin-top: 20px;
+  font-size: 0.85rem;
+  color: #888;
+}
+.buybox-footer p { margin: 5px 0; }
+
+/* Toast Notification (reutilizado) */
+.notification-toast {
+  position: fixed; top: 90px; right: 20px;
+  background: #333; color: white; padding: 15px 25px;
+  border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  z-index: 9999; animation: slideInToast 0.4s;
+}
+.toast-success { background: #15803d; }
+.toast-error { background: #b91c1c; }
+@keyframes slideInToast { from { transform: translateX(100%); } to { transform: translateX(0); } }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .details-main-layout {
+    grid-template-columns: 1fr; /* Todo en 1 columna */
+  }
+  .main-image-frame {
+    margin: 0 auto;
+    max-width: 300px;
+    height: 400px;
+  }
+  .col-buybox {
+    order: -1;
+  }
 }
